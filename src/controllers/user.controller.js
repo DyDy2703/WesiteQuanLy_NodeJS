@@ -73,6 +73,11 @@ export const getUserById = asyncHandler(async (req, res) => {
 
 export const updateUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  const body = req.body;
+  if (!body) {
+    res.status(405);
+    throw new Error("Bad Request");
+  }
   if (!validateObjectId(id)) {
     res.status(400);
     throw new Error("Invalid user ID");
