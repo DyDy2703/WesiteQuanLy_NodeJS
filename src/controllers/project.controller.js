@@ -8,14 +8,14 @@ const validateObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
  * @route   POST /api/projects/
  * @desc    Create a new project   
  * @body    { name, key, description?, lead_id }
- * @returns 201 OK | 400 Not Required | 404 Not Found | 409 Exist |500 Internal Server Error
+ * @returns 201 OK | 400 Not Required | 404 Not Found | 409 Already Exists |500 Internal Server Error
 **/
 
 export const createProject = asyncHandler(async (req, res) => {
   const { name, key, description, lead_id } = req.body;
-  if (!name || !key) {
+  if (!name || !key || !lead_id) {
     res.status(400);
-    throw new Error("name and key are required");
+    throw new Error("name and key and lead_id are required");
   }
 
   const existing = await Project.findOne({ key });
@@ -68,11 +68,16 @@ export const getProjectById = asyncHandler(async (req, res) => {
  * @route   POST /api/projects/{projectID}
  * @desc    Update project by ID   
  * @body    { name, key, description?, lead_id }
- * @returns 200 OK | 400 ID Not Found | 404 Project Not Found | 500 Internal Server Error
+ * @returns 200 OK | 400 Invalid ID | 404 Not Found | 405 Bad Request | 500 Internal Server Error
 **/
 
 export const updateProject = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  const body = req.body;
+  if (!body) {
+    res.status(405);
+    throw new Error("Bad Request");
+  }
   if (!validateObjectId(id)) {
     res.status(400);
     throw new Error("Invalid project ID");
@@ -86,6 +91,12 @@ export const updateProject = asyncHandler(async (req, res) => {
 });
 
 
+/**
+ * @route   DELETE /api/projects/{projectID}
+ * @desc    Delete project by ID
+ * @body    { }
+ * @returns 200 OK | 400 Invalid ID | 404 Not Found | 500 Internal Server Error
+**/
 
 export const deleteProject = asyncHandler(async (req, res) => {
   const { id } = req.params;

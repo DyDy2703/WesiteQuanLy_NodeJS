@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo Management App</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app" class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="logo">
+        <h1>📋 TodoApp</h1>
+      </div>
+      <nav class="nav-menu">
+        <button class="nav-link active" data-view="todos">
+          <span class="icon">✓</span> Todos
+        </button>
+        <button class="nav-link" data-view="projects">
+          <span class="icon">📁</span> Projects
+        </button>
+        <button class="nav-link" data-view="issues">
+          <span class="icon">🎯</span> Issues
+        </button>
+        <button class="nav-link" data-view="users">
+          <span class="icon">👥</span> Users
+        </button>
+        <button class="nav-link" data-view="sprints">
+          <span class="icon">🏃</span> Sprints
+        </button>
+        <button class="nav-link" data-view="boards">
+          <span class="icon">🎨</span> Boards
+        </button>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="header">
+        <h2 id="page-title">Todos</h2>
+        <div class="header-actions">
+          <input type="text" class="search-input" placeholder="Search...">
+          <button class="btn btn-primary" id="add-btn">+ Add New</button>
+        </div>
+      </header>
+
+      <!-- Content Area -->
+      <div class="content">
+        <!-- Todos View -->
+        <section id="todos-view" class="view active">
+          <div class="todos-container">
+            <div class="todos-list" id="todos-list">
+              <!-- Todos will be loaded here -->
+            </div>
+          </div>
+        </section>
+
+        <!-- Projects View -->
+        <section id="projects-view" class="view">
+          <div class="grid-container" id="projects-grid">
+            <!-- Projects will be loaded here -->
+          </div>
+        </section>
+
+        <!-- Issues View -->
+        <section id="issues-view" class="view">
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Key</th>
+                  <th>Summary</th>
+                  <th>Status</th>
+                  <th>Priority</th>
+                  <th>Assignee</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="issues-tbody">
+                <!-- Issues will be loaded here -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Users View -->
+        <section id="users-view" class="view">
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Username</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Active</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="users-tbody">
+                <!-- Users will be loaded here -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Sprints View -->
+        <section id="sprints-view" class="view">
+          <div class="grid-container" id="sprints-grid">
+            <!-- Sprints will be loaded here -->
+          </div>
+        </section>
+
+        <!-- Boards View -->
+        <section id="boards-view" class="view">
+          <div class="grid-container" id="boards-grid">
+            <!-- Boards will be loaded here -->
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modal-title">Add New</h3>
+        <button class="close-btn" id="close-modal">&times;</button>
+      </div>
+      <form id="entity-form" class="modal-form">
+        <!-- Form fields dynamically added -->
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

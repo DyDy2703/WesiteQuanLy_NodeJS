@@ -7,15 +7,15 @@ const validateObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 /**
  * @route   POST /api/sprints/
  * @desc    Create a new sprint   
- * @body    { name, board_id?, start_date?, end_date?, status? }
+ * @body    { name, project_id, start_date?, end_date?, status? }
  * @returns 201 OK | 400 Not Required | 404 Not Found | 500 Internal Server Error
 **/
 
 export const createSprint = asyncHandler(async (req, res) => {
-  const { name, board_id } = req.body;
-  if (!name) {
+  const { name, project_id } = req.body;
+  if (!name || !project_id) {
     res.status(400);
-    throw new Error("name is required");
+    throw new Error("name and project_id is required");
   }
   const sprint = await Sprint.create(req.body);
   res.status(201).json({ success: true, data: sprint });
@@ -29,7 +29,7 @@ export const createSprint = asyncHandler(async (req, res) => {
 **/
 
 export const getAllSprints = asyncHandler(async (req, res) => {
-  const sprints = await Sprint.find().populate("board_id");
+  const sprints = await Sprint.find().populate("project_id");
   res.json({ success: true, data: sprints });
 });
 
@@ -46,7 +46,7 @@ export const getSprintById = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("Invalid ID");
   }
-  const sprint = await Sprint.findById(id).populate("board_id");
+  const sprint = await Sprint.findById(id).populate("project_id");
   if (!sprint) {
     res.status(404);
     throw new Error("Sprint not found");
@@ -56,17 +56,22 @@ export const getSprintById = asyncHandler(async (req, res) => {
 
 
 /**
- * @route   Post /api/sprints/{sprintID}
+ * @route   PUT /api/sprints/{sprintID}
  * @desc    Update sprint by ID   
- * @body    { name, board_id?, start_date?, end_date?, status? }
- * @returns 200 OK | 400 ID Not Found | 404 User Not Found | 500 Internal Server Error
+ * @body    { name?, project_id?, start_date?, end_date?, status? }
+ * @returns 200 OK | 400 Invalid ID | 404 Not Found | 405 Bad Request | 500 Internal Server Error
 **/
 
 export const updateSprint = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  const body = req.body;
   if (!validateObjectId(id)) {
     res.status(400);
     throw new Error("Invalid ID");
+  }
+  if (!body) {
+    res.status(405);
+    throw new Error("Bad Request ");
   }
   const sprint = await Sprint.findByIdAndUpdate(id, req.body, {
     new: true,
@@ -79,7 +84,12 @@ export const updateSprint = asyncHandler(async (req, res) => {
   res.json({ success: true, data: sprint });
 });
 
-
+/**
+ * @route   DELETE /api/sprints/{sprintID}
+ * @desc    Delete sprint by ID
+ * @body    { }
+ * @returns 200 OK | 400 Invalid ID | 404 Not Found | 500 Internal Server Error
+**/
 
 export const deleteSprint = asyncHandler(async (req, res) => {
   const { id } = req.params;

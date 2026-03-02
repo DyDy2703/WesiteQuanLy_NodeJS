@@ -7,14 +7,14 @@ const validateObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 /**
  * @route   POST /api/users/
  * @desc    Create a new user   
- * @body    { username, email, password, display_name, role, active }
- * @returns 200 OK | 400 Not required | 404 Not Found | 409 Exist | 500 Internal Server Error
+ * @body    { username, email, password, display_name?, role? }
+ * @returns 200 OK | 402 Not required | 409 Exist | 500 Internal Server Error
 **/
 
 export const createUser = asyncHandler(async (req, res) => {
-  const { username, email, password, display_name, role, active } = req.body;
+  const { username, email, password, display_name, role } = req.body;
   if (!username || !email || !password) {
-    res.status(400);
+    res.status(402);
     throw new Error("username, email and password are required");
   }
 
@@ -24,7 +24,7 @@ export const createUser = asyncHandler(async (req, res) => {
     throw new Error("username or email already in use");
   }
 
-  const user = await User.create({ username, email, password, display_name, role, active });
+  const user = await User.create({ username, email, password, display_name, role, active: true });
   res.status(201).json({ success: true, data: user });
 });
 
@@ -45,8 +45,8 @@ export const getAllUsers = asyncHandler(async (req, res) => {
 /**
  * @route   GET /api/users/{userID}
  * @desc    Get user by ID   
- * @body    { username, email, password, display_name, role, active }
- * @returns 200 OK | 400 ID Not Found | 404 User Not Found | 500 Internal Server Error
+ * @body    { }
+ * @returns 200 OK | 400 Invalid ID | 404 Not Found | 500 Internal Server Error
 **/
 
 export const getUserById = asyncHandler(async (req, res) => {
@@ -65,10 +65,10 @@ export const getUserById = asyncHandler(async (req, res) => {
 
 
 /**
- * @route   Post /api/users/{userID}
+ * @route   PUT /api/users/{userID}
  * @desc    Update user by ID   
- * @body    { username?, email?, password?, display_name?, role? }
- * @returns 200 OK | 400 ID Not Found | 404 User Not Found | 500 Internal Server Error
+ * @body    { username?, email?, password?, display_name?, role?, active? }
+ * @returns 200 OK | 400 Invalid ID | 404 Not Found | 500 Internal Server Error
 **/
 
 export const updateUser = asyncHandler(async (req, res) => {
@@ -87,10 +87,10 @@ export const updateUser = asyncHandler(async (req, res) => {
 });
 
 /**
- * @route  
- * @desc    
+ * @route   DELETE /api/users/{userID}
+ * @desc    Delete user by ID   
  * @body    { }
- * @returns 200 OK | 400 ID Not Found | 404 User Not Found | 500 Internal Server Error
+ * @returns 200 OK | 400 Invalid ID | 404 Not Found | 500 Internal Server Error
 **/
 
 export const deleteUser = asyncHandler(async (req, res) => {
