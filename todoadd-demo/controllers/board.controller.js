@@ -17,7 +17,11 @@ export const createBoard = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("name is required");
   }
-  const board = await Board.create(req.body);
+  if (project_id !== undefined && project_id !== null && project_id !== "" && !validateObjectId(project_id)) {
+    res.status(400);
+    throw new Error("project_id must be a valid ObjectId");
+  }
+  const board = await Board.create({ name, project_id });
   res.status(201).json({ success: true, data: board });
 });
 
@@ -63,11 +67,32 @@ export const getBoardById = asyncHandler(async (req, res) => {
 
 export const updateBoard = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  const { name, project_id } = req.body;
   if (!validateObjectId(id)) {
     res.status(400);
     throw new Error("Invalid ID");
   }
-  const board = await Board.findByIdAndUpdate(id, req.body, {
+
+  const updateFields = {};
+  if (name !== undefined) updateFields.name = name;
+  if (project_id !== undefined) updateFields.project_id = project_id;
+
+  if (Object.keys(updateFields).length === 0) {
+    res.status(400);
+    throw new Error("Nothing to update");
+  }
+
+  if (
+    updateFields.project_id !== undefined &&
+    updateFields.project_id !== null &&
+    updateFields.project_id !== "" &&
+    !validateObjectId(updateFields.project_id)
+  ) {
+    res.status(400);
+    throw new Error("project_id must be a valid ObjectId");
+  }
+
+  const board = await Board.findByIdAndUpdate(id, updateFields, {
     new: true,
     runValidators: true,
   });

@@ -46,6 +46,14 @@ export const getAllTodos = asyncHandler(async (req, res) => {
   // Pagination
   const pageNumber = Number(page);
   const limitNumber = Number(limit);
+  if (!Number.isInteger(pageNumber) || pageNumber < 1) {
+    res.status(400);
+    throw new Error("page must be a positive integer");
+  }
+  if (!Number.isInteger(limitNumber) || limitNumber < 1 || limitNumber > 100) {
+    res.status(400);
+    throw new Error("limit must be an integer between 1 and 100");
+  }
   const skip = (pageNumber - 1) * limitNumber;
 
   const todos = await Todo.find(query)
@@ -115,7 +123,7 @@ export const updateTodo = asyncHandler(async (req, res) => {
   }
 
   const updated = await Todo.findByIdAndUpdate(id, updateFields, {
-    new: true,
+    returnDocument: "after",
     runValidators: true,
   });
 
@@ -149,7 +157,7 @@ export const toggleTodoStatus = asyncHandler(async (req, res) => {
   const todo = await Todo.findByIdAndUpdate(
     id,
     { isCompleted },
-    { new: true }
+    { returnDocument: "after" }
   );
 
   if (!todo) {

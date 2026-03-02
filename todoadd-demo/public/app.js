@@ -1,4 +1,4 @@
-const API = 'http://localhost:5001/api';
+const API = '/api';
 let currentView = 'todos';
 let currentEntityType = 'todos';
 let editingId = null;

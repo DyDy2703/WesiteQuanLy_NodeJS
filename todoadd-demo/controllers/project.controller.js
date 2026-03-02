@@ -17,6 +17,10 @@ export const createProject = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("name and key are required");
   }
+  if (lead_id !== undefined && lead_id !== null && lead_id !== "" && !validateObjectId(lead_id)) {
+    res.status(400);
+    throw new Error("lead_id must be a valid ObjectId");
+  }
 
   const existing = await Project.findOne({ key });
   if (existing) {
@@ -73,11 +77,33 @@ export const getProjectById = asyncHandler(async (req, res) => {
 
 export const updateProject = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  const { name, key, description, lead_id } = req.body;
   if (!validateObjectId(id)) {
     res.status(400);
     throw new Error("Invalid project ID");
   }
-  const project = await Project.findByIdAndUpdate(id, req.body, { new: true, runValidators: true });
+
+  const updateFields = {};
+  if (name !== undefined) updateFields.name = name;
+  if (key !== undefined) updateFields.key = key;
+  if (description !== undefined) updateFields.description = description;
+  if (lead_id !== undefined) updateFields.lead_id = lead_id;
+
+  if (Object.keys(updateFields).length === 0) {
+    res.status(400);
+    throw new Error("Nothing to update");
+  }
+  if (
+    updateFields.lead_id !== undefined &&
+    updateFields.lead_id !== null &&
+    updateFields.lead_id !== "" &&
+    !validateObjectId(updateFields.lead_id)
+  ) {
+    res.status(400);
+    throw new Error("lead_id must be a valid ObjectId");
+  }
+
+  const project = await Project.findByIdAndUpdate(id, updateFields, { new: true, runValidators: true });
   if (!project) {
     res.status(404);
     throw new Error("Project not found");

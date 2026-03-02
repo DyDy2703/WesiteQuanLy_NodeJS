@@ -24,9 +24,22 @@ dotenv.config();
 connectDB();
 
 const app = express();
+const allowedOrigins = (process.env.CORS_ORIGIN || "http://localhost:5001,http://localhost:5000")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
 
 // Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error("Not allowed by CORS"));
+    },
+  })
+);
 app.use(express.json());
 app.use(express.static("public")); // Serve static files
 app.use("/api/todos", todoRoutes);
@@ -63,6 +76,23 @@ app.get("/", (req, res) => {
 
 // handle 404 for unknown routes
 app.use((req, res, next) => {
+  // Silently return 404 for browser/Chrome requests and other expected missing resources
+  const silentPaths = [
+    '/favicon.ico',
+    '/api',
+    '/.well-known/',
+    '/robots.txt',
+    '/apple-touch-icon'
+  ];
+  
+  if (silentPaths.some(path => req.originalUrl.startsWith(path))) {
+    return res.status(404).json({
+      success: false,
+      message: "Not Found",
+      path: req.originalUrl
+    });
+  }
+  
   res.status(404);
   const error = new Error(`Not Found - ${req.originalUrl}`);
   next(error);

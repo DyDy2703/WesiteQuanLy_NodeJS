@@ -8,7 +8,7 @@
 ## 📋 Todos Endpoints
 
 ### Create Todo
-- **POST** `/todos/add`
+- **POST** `/todos`
 - **Body**: `{ title, description }`
 - **Response**: Created todo object
 

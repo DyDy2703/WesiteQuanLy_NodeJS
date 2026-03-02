@@ -73,12 +73,25 @@ export const getUserById = asyncHandler(async (req, res) => {
 
 export const updateUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  const { username, email, password, display_name, role, active } = req.body;
   if (!validateObjectId(id)) {
     res.status(400);
     throw new Error("Invalid user ID");
   }
-  const update = req.body;
-  const user = await User.findByIdAndUpdate(id, update, { new: true, runValidators: true });
+  const updateFields = {};
+  if (username !== undefined) updateFields.username = username;
+  if (email !== undefined) updateFields.email = email;
+  if (password !== undefined) updateFields.password = password;
+  if (display_name !== undefined) updateFields.display_name = display_name;
+  if (role !== undefined) updateFields.role = role;
+  if (active !== undefined) updateFields.active = active;
+
+  if (Object.keys(updateFields).length === 0) {
+    res.status(400);
+    throw new Error("Nothing to update");
+  }
+
+  const user = await User.findByIdAndUpdate(id, updateFields, { new: true, runValidators: true });
   if (!user) {
     res.status(404);
     throw new Error("User not found");
