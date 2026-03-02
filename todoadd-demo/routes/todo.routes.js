@@ -10,8 +10,8 @@ import {
 
 const route = express.Router();
 
-// Create todo - POST /api/todos/add
-route.post("/add", createTodo);
+// Create todo - POST /api/todos
+route.post("/", createTodo);
 
 // Get all todos - GET /api/todos
 route.get("/", getAllTodos);

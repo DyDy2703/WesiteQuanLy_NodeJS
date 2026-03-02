@@ -40,11 +40,21 @@ export const getStatusTypeById = asyncHandler(async (req, res) => {
 
 export const updateStatusType = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  const { name, description } = req.body;
   if (!validateObjectId(id)) {
     res.status(400);
     throw new Error("Invalid ID");
   }
-  const type = await StatusType.findByIdAndUpdate(id, req.body, {
+  const updateFields = {};
+  if (name !== undefined) updateFields.name = name;
+  if (description !== undefined) updateFields.description = description;
+
+  if (Object.keys(updateFields).length === 0) {
+    res.status(400);
+    throw new Error("Nothing to update");
+  }
+
+  const type = await StatusType.findByIdAndUpdate(id, updateFields, {
     new: true,
     runValidators: true,
   });

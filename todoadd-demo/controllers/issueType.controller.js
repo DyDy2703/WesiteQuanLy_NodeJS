@@ -40,11 +40,16 @@ export const getIssueTypeById = asyncHandler(async (req, res) => {
 
 export const updateIssueType = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  const { name } = req.body;
   if (!validateObjectId(id)) {
     res.status(400);
     throw new Error("Invalid ID");
   }
-  const type = await IssueType.findByIdAndUpdate(id, req.body, {
+  if (name === undefined || String(name).trim() === "") {
+    res.status(400);
+    throw new Error("name is required");
+  }
+  const type = await IssueType.findByIdAndUpdate(id, { name }, {
     new: true,
     runValidators: true,
   });
