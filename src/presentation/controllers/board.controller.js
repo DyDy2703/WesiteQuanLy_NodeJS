@@ -1,5 +1,5 @@
-import Board from "../models/board.model.js";
-import { asyncHandler } from "../middlewares/asyncHandler.js";
+import Board from "../../data/models/board.model.js";
+import { asyncHandler } from "../../middlewares/asyncHandler.js";
 import mongoose from "mongoose";
 
 const validateObjectId = (id) => mongoose.Types.ObjectId.isValid(id);

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import Todo from "../models/todo.model.js";
-import { asyncHandler } from "../middlewares/asyncHandler.js";
+import { asyncHandler } from "../../middlewares/asyncHandler.js";
 
 // helper for ID validation
 const validateObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
