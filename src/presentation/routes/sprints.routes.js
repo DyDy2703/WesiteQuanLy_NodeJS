@@ -1,18 +1,12 @@
 import express from "express";
-import {
-  createSprint,
-  getAllSprints,
-  getSprintById,
-  updateSprint,
-  deleteSprint,
-} from "../controllers/sprint.controller.js";
+import sprintController from "../controllers/sprint.controller.js";
 
 const router = express.Router();
 
-router.post("/", createSprint);
-router.get("/", getAllSprints);
-router.get("/:id", getSprintById);
-router.put("/:id", updateSprint);
-router.delete("/:id", deleteSprint);
+router.post("/", sprintController.createSprint);
+router.get("/", sprintController.getAllSprints);
+router.get("/:id", sprintController.getSprintById);
+router.put("/:id", sprintController.updateSprint);
+router.delete("/:id", sprintController.deleteSprint);
 
 export default router;

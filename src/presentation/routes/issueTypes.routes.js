@@ -1,18 +1,12 @@
 import express from "express";
-import {
-  createIssueType,
-  getAllIssueTypes,
-  getIssueTypeById,
-  updateIssueType,
-  deleteIssueType,
-} from "../controllers/issueType.controller.js";
+import issueTypeController from "../controllers/issueType.controller.js";
 
 const router = express.Router();
 
-router.post("/", createIssueType);
-router.get("/", getAllIssueTypes);
-router.get("/:id", getIssueTypeById);
-router.put("/:id", updateIssueType);
-router.delete("/:id", deleteIssueType);
+router.post("/", issueTypeController.createIssueType);
+router.get("/", issueTypeController.getAllIssueTypes);
+router.get("/:id", issueTypeController.getIssueTypeById);
+router.put("/:id", issueTypeController.updateIssueType);
+router.delete("/:id", issueTypeController.deleteIssueType);
 
 export default router;
