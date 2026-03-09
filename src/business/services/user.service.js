@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import bcrypt from "bcrypt";
+// import bcrypt from "bcrypt";
 import userRepository from "../../data/repositories/user.repository.js";
 
 const validateObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
@@ -28,13 +28,13 @@ class UserService {
             throw { status: 409, message: "username or email already in use" };
         }
 
-        // 🔐 Hash password
-        const hashedPassword = await bcrypt.hash(password, 10);
+        // Hash password
+        // const hashedPassword = await bcrypt.hash(password, 10);
 
         return await userRepository.create({
             username,
             email,
-            password: hashedPassword,
+            password,
             display_name,
             role,
             active: true,
@@ -98,9 +98,9 @@ class UserService {
         }
 
         // Nếu update password → hash lại
-        if (data.password) {
-            data.password = await bcrypt.hash(data.password, 10);
-        }
+        // if (data.password) {
+        //     data.password = await bcrypt.hash(data.password, 10);
+        // }
 
         const user = await userRepository.update(id, data);
 

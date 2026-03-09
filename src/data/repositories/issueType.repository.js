@@ -1,4 +1,4 @@
-import IssueType from "../../models/issueType.model.js";
+import IssueType from "../models/issueType.model.js";
 
 class IssueTypeRepository {
   async create(data) {

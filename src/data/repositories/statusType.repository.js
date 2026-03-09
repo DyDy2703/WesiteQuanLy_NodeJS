@@ -1,4 +1,4 @@
-import StatusType from "../../models/statusType.model.js";
+import StatusType from "../models/statusType.model.js";
 
 class StatusTypeRepository {
 

@@ -9,16 +9,16 @@ import { errorHandler } from "./middlewares/errorHandler.js";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // Routes
-import todoRoutes from "./routes/todo.routes.js";
-import usersRoutes from "./routes/users.routes.js";
-import projectsRoutes from "./routes/projects.routes.js";
-import issuesRoutes from "./routes/issues.routes.js";
-import commentsRoutes from "./routes/comments.routes.js";
-import sprintsRoutes from "./routes/sprints.routes.js";
-import boardsRoutes from "./routes/boards.routes.js";
-import issueTypesRoutes from "./routes/issueTypes.routes.js";
-import statusTypesRoutes from "./routes/statusTypes.routes.js";
-import priorityTypesRoutes from "./routes/priorityTypes.routes.js";
+// import todoRoutes from "./presentation/routes/todo.routes.js";
+import usersRoutes from "./presentation/routes/users.routes.js";
+import projectsRoutes from "./presentation/routes/projects.routes.js";
+import issuesRoutes from "./presentation/routes/issues.routes.js";
+import commentsRoutes from "./presentation/routes/comments.routes.js";
+import sprintsRoutes from "./presentation/routes/sprints.routes.js";
+import boardsRoutes from "./presentation/routes/boards.routes.js";
+import issueTypesRoutes from "./presentation/routes/issueTypes.routes.js";
+import statusTypesRoutes from "./presentation/routes/statusTypes.routes.js";
+import priorityTypesRoutes from "./presentation/routes/priorityTypes.routes.js";
 
 dotenv.config();
 connectDB();
@@ -29,7 +29,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.static("public")); // Serve static files
-app.use("/api/todos", todoRoutes);
+// app.use("/api/todos", todoRoutes);
 app.use("/api/users", usersRoutes);
 app.use("/api/projects", projectsRoutes);
 app.use("/api/issues", issuesRoutes);
@@ -47,7 +47,7 @@ app.get("/", (req, res) => {
     message: "Todo App API",
     version: "1.0.0",
     endpoints: {
-      todos: "/api/todos",
+      // todos: "/api/todos",
       users: "/api/users",
       projects: "/api/projects",
       issues: "/api/issues",

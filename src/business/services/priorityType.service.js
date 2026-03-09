@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import priorityTypeRepository from "../../data/repositories/prioritytype.repository.js";
-import Issue from "../../models/issue.model.js";
+import Issue from "../../data/models/issue.model.js";
 
 const validateObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 

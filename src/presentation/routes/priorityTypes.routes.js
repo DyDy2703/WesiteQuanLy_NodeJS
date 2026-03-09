@@ -1,12 +1,12 @@
 import express from "express";
 import priorityTypeController from "../controllers/priorityType.controller.js";
 
-const router = express.Router();
+const priorityTypesRoutes = express.Router();
 
-router.post("/", priorityTypeController.createPriorityType);
-router.get("/", priorityTypeController.getAllPriorityTypes);
-router.get("/:id", priorityTypeController.getPriorityTypeById);
-router.put("/:id", priorityTypeController.updatePriorityType);
-router.delete("/:id", priorityTypeController.deletePriorityType);
+priorityTypesRoutes.post("/", priorityTypeController.createPriorityType);
+priorityTypesRoutes.get("/", priorityTypeController.getAllPriorityTypes);
+priorityTypesRoutes.get("/:id", priorityTypeController.getPriorityTypeById);
+priorityTypesRoutes.put("/:id", priorityTypeController.updatePriorityType);
+priorityTypesRoutes.delete("/:id", priorityTypeController.deletePriorityType);
 
-export default router;
+export default priorityTypesRoutes;

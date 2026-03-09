@@ -1,12 +1,12 @@
 import express from "express";
 import statusTypeController from "../controllers/statusType.controller.js";
 
-const router = express.Router();
+const issueTypesRoutes = express.Router();
 
-router.post("/", statusTypeController.createStatusType);
-router.get("/", statusTypeController.getAllStatusTypes);
-router.get("/:id", statusTypeController.getStatusTypeById);
-router.put("/:id", statusTypeController.updateStatusType);
-router.delete("/:id", statusTypeController.deleteStatusType);
+issueTypesRoutes.post("/", statusTypeController.createStatusType);
+issueTypesRoutes.get("/", statusTypeController.getAllStatusTypes);
+issueTypesRoutes.get("/:id", statusTypeController.getStatusTypeById);
+issueTypesRoutes.put("/:id", statusTypeController.updateStatusType);
+issueTypesRoutes.delete("/:id", statusTypeController.deleteStatusType);
 
-export default router;
+export default issueTypesRoutes;

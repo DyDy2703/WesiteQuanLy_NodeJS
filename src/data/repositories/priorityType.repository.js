@@ -1,4 +1,4 @@
-import PriorityType from "../../models/priorityType.model.js";
+import PriorityType from "../models/priorityType.model.js";
 
 class PriorityTypeRepository {
 

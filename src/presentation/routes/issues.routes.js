@@ -1,12 +1,12 @@
 import express from "express";
 import issueController from "../controllers/issue.controller.js";
 
-const router = express.Router();
+const issuesRoutes = express.Router();
 
-router.post("/", issueController.createIssue);
-router.get("/", issueController.getAllIssues);
-router.get("/:id", issueController.getIssueById);
-router.put("/:id", issueController.updateIssue);
-router.delete("/:id", issueController.deleteIssue);
+issuesRoutes.post("/", issueController.createIssue);
+issuesRoutes.get("/", issueController.getAllIssues);
+issuesRoutes.get("/:id", issueController.getIssueById);
+issuesRoutes.put("/:id", issueController.updateIssue);
+issuesRoutes.delete("/:id", issueController.deleteIssue);
 
-export default router;
+export default issuesRoutes;
