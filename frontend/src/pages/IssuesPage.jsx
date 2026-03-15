@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import "./IssuesPage.css";
 import IssueDetailPanel from "../components/IssueDetailPanel";
+import IssueCard from "../components/IssueCard";
+import QuickFilterBar from "../components/QuickFilterBar";
 
 const API_BASE = "http://localhost:5001/api";
 
@@ -165,72 +167,37 @@ export default function IssuesPage() {
       </div>
 
       <div className="issues-filter-bar">
-        {QUICK_STATUSES.map((s) => (
-          <button
-            key={s}
-            className={`issues-filter-chip ${activeFilter === s ? "active" : ""}`}
-            onClick={() => toggleQuickFilter(s)}
-          >
-            {s}
-          </button>
-        ))}
-
-        <div style={{ width: 12 }} />
-        {TIME_FILTERS.map(t => (
-          <button key={t.key} className={`issues-filter-chip quick ${timeFilter===t.key? 'active':''}`} onClick={()=>toggleTimeFilter(t.key)}>{t.label}</button>
-        ))}
-
-        <div style={{ width: 12 }} />
-        <button className="issues-refresh-btn" onClick={()=>loadIssues(timeFilter)}>
-          Refresh
-        </button>
+        <QuickFilterBar
+          statuses={QUICK_STATUSES}
+          timeFilters={TIME_FILTERS}
+          activeStatus={activeFilter}
+          activeTime={timeFilter}
+          onStatusChange={(s)=>toggleQuickFilter(s)}
+          onTimeChange={(k)=>toggleTimeFilter(k)}
+          onRefresh={()=>loadIssues(timeFilter)}
+        />
       </div>
 
       <div className="page-card">
-        {loading && <div className="issues-empty-state">Đang tải issues...</div>}
+        {loading && (
+          <div className="issues-skeleton">
+            <div className="skeleton-card" />
+            <div className="skeleton-card" />
+            <div className="skeleton-card" />
+          </div>
+        )}
 
         {!loading && error && <div className="issues-error-state">{error}</div>}
 
         {!loading && !error && (
-          <div className="issues-table-wrapper">
-            <table className="issues-table">
-              <thead>
-                <tr>
-                  <th>KEY</th>
-                  <th>SUMMARY</th>
-                  <th>STATUS</th>
-                  <th>PRIORITY</th>
-                  <th>ASSIGNEE</th>
-                  <th>ACTIONS</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredIssues.length === 0 ? (
-                  <tr>
-                    <td colSpan="6" className="issues-empty-row">
-                      Không có issue phù hợp
-                    </td>
-                  </tr>
-                ) : (
-                  filteredIssues.map((issue) => (
-                    <tr key={issue._id || issue.issue_key}>
-                      <td>{issue.issue_key || "NO-KEY"}</td>
-                      <td>{issue.summary || "Untitled issue"}</td>
-                      <td>{getStatusName(issue)}</td>
-                      <td>{getPriorityName(issue)}</td>
-                      <td>{getAssigneeName(issue)}</td>
-                      <td>
-                        <div className="issues-actions-cell">
-                          <button className="issues-action-btn" onClick={() => openIssueDetail(issue._id)}>View</button>
-                          <button className="issues-action-btn">Edit</button>
-                          <button className="issues-action-btn danger">Delete</button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
+          <div className="issues-cards-wrapper">
+            {filteredIssues.length === 0 ? (
+              <div className="issues-empty-state">Không có issue phù hợp</div>
+            ) : (
+              filteredIssues.map((issue) => (
+                <IssueCard key={issue._id || issue.issue_key} issue={issue} onView={openIssueDetail} />
+              ))
+            )}
           </div>
         )}
       </div>
