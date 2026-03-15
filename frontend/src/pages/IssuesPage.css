@@ -40,6 +40,11 @@
     flex-wrap: wrap;
     margin-bottom: 16px;
   }
+
+  .issues-filter-chip.quick {
+    padding: 6px 12px;
+    border-radius: 14px;
+  }
   
   .issues-filter-chip {
     height: 36px;

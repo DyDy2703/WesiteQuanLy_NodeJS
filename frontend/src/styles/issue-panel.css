@@ -1,0 +1,60 @@
+.issue-detail-overlay{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  justify-content: flex-end;
+  z-index: 9999;
+}
+.issue-detail-panel{
+  width: 420px;
+  max-width: 100%;
+  background: #fff;
+  height: 100%;
+  box-shadow: -8px 0 24px rgba(0,0,0,0.12);
+  padding: 16px;
+  overflow-y: auto;
+}
+.issue-detail-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.issue-detail-header h3{margin:0;font-size:18px}
+.close-btn{background:transparent;border:none;font-size:22px;cursor:pointer}
+.issue-field{margin-top:8px}
+.issue-section{margin-top:14px}
+.issue-desc{white-space:pre-wrap}
+.fp-issue-panel {
+  position: fixed;
+  right: 16px;
+  top: 80px;
+  width: 420px;
+  max-height: calc(100vh - 120px);
+  background: #fff;
+  border: 1px solid #e6e6e6;
+  box-shadow: 0 12px 30px rgba(2,6,23,0.08);
+  padding: 16px;
+  overflow: auto;
+  z-index: 2000;
+  border-radius: 8px;
+}
+.fp-panel-header { display:flex; justify-content:space-between; align-items:center; gap:12px }
+.fp-issue-key { color:#0b66c3; font-weight:700; font-size:13px }
+.fp-issue-title { font-size:18px; font-weight:700; margin-top:6px }
+.fp-close { background:transparent; border:none; font-size:20px; cursor:pointer }
+.fp-meta { margin-top:12px; display:flex; flex-direction:column; gap:8px }
+.fp-row { display:flex; justify-content:space-between; color:#374151 }
+.fp-left { color:#6b7280 }
+.fp-section { margin-top:12px }
+.fp-section-title { font-weight:700; font-size:13px; margin-bottom:8px }
+.fp-desc { white-space:pre-wrap; color:#111; line-height:1.45 }
+.fp-labels { display:flex; gap:8px; flex-wrap:wrap }
+.fp-label { background:#f3f4f6; padding:6px 10px; border-radius:12px; font-size:12px }
+.fp-attachments { display:flex; flex-direction:column; gap:8px }
+.fp-attachment { padding:8px; background:#fafafa; border:1px solid #f0f0f0; border-radius:6px }
+
+@media (max-width: 900px) {
+  .fp-issue-panel { position:fixed; left:12px; right:12px; width:auto; max-height:50vh }
+}

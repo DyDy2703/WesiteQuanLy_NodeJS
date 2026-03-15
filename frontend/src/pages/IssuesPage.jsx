@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import "./IssuesPage.css";
+import IssueDetailPanel from "../components/IssueDetailPanel";
 
 const API_BASE = "http://localhost:5001/api";
 
@@ -46,6 +47,9 @@ export default function IssuesPage() {
   const [activeFilter, setActiveFilter] = useState("ALL");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [selectedIssue, setSelectedIssue] = useState(null);
+  const [panelOpen, setPanelOpen] = useState(false);
+  const QUICK_STATUSES = ["ALL", "TODO", "IN PROGRESS", "IN REVIEW", "DONE", "BACKLOG"];
 
   async function loadIssues() {
     try {
@@ -66,6 +70,25 @@ export default function IssuesPage() {
     } finally {
       setLoading(false);
     }
+  }
+
+  async function openIssueDetail(id) {
+    if (!id) return;
+    try {
+      const res = await fetch(`${API_BASE}/issues/${id}`);
+      if (!res.ok) throw new Error('Failed to fetch issue');
+      const json = await res.json().catch(() => ({}));
+      const issueData = json.data || json;
+      setSelectedIssue(issueData);
+      setPanelOpen(true);
+    } catch (err) {
+      setError(err.message || 'Không tải được chi tiết issue');
+    }
+  }
+
+  function closePanel() {
+    setPanelOpen(false);
+    setSelectedIssue(null);
   }
 
   useEffect(() => {
@@ -102,6 +125,13 @@ export default function IssuesPage() {
     return result;
   }, [issues, search, activeFilter]);
 
+  function toggleQuickFilter(status) {
+    if (status === "ALL") return setActiveFilter("ALL");
+    // map common labels to normalized version used by getStatusName
+    const normalized = status.toUpperCase();
+    setActiveFilter((prev) => (prev === normalized ? "ALL" : normalized));
+  }
+
   return (
     <div className="page-shell">
       <div className="issues-page-header">
@@ -120,16 +150,17 @@ export default function IssuesPage() {
       </div>
 
       <div className="issues-filter-bar">
-        {statusFilters.map((filter) => (
+        {QUICK_STATUSES.map((s) => (
           <button
-            key={filter}
-            className={`issues-filter-chip ${activeFilter === filter ? "active" : ""}`}
-            onClick={() => setActiveFilter(filter)}
+            key={s}
+            className={`issues-filter-chip ${activeFilter === s ? "active" : ""}`}
+            onClick={() => toggleQuickFilter(s)}
           >
-            {filter}
+            {s}
           </button>
         ))}
 
+        <div style={{ width: 12 }} />
         <button className="issues-refresh-btn" onClick={loadIssues}>
           Refresh
         </button>
@@ -170,6 +201,7 @@ export default function IssuesPage() {
                       <td>{getAssigneeName(issue)}</td>
                       <td>
                         <div className="issues-actions-cell">
+                          <button className="issues-action-btn" onClick={() => openIssueDetail(issue._id)}>View</button>
                           <button className="issues-action-btn">Edit</button>
                           <button className="issues-action-btn danger">Delete</button>
                         </div>
@@ -182,6 +214,9 @@ export default function IssuesPage() {
           </div>
         )}
       </div>
+      {panelOpen && (
+        <IssueDetailPanel issue={selectedIssue} onClose={closePanel} />
+      )}
     </div>
   );
 }
