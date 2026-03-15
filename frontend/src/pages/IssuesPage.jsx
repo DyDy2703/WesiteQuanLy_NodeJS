@@ -45,18 +45,27 @@ export default function IssuesPage() {
   const [issues, setIssues] = useState([]);
   const [search, setSearch] = useState("");
   const [activeFilter, setActiveFilter] = useState("ALL");
+  const [timeFilter, setTimeFilter] = useState('all');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [selectedIssue, setSelectedIssue] = useState(null);
   const [panelOpen, setPanelOpen] = useState(false);
   const QUICK_STATUSES = ["ALL", "TODO", "IN PROGRESS", "IN REVIEW", "DONE", "BACKLOG"];
+  const TIME_FILTERS = [
+    { key: 'all', label: 'All' },
+    { key: 'today', label: 'Today' },
+    { key: 'this_week', label: 'This Week' },
+    { key: 'overdue', label: 'Overdue' },
+    { key: 'upcoming', label: 'Upcoming' },
+  ];
 
-  async function loadIssues() {
+  async function loadIssues(timeKey) {
     try {
       setLoading(true);
       setError("");
 
-      const res = await fetch(`${API_BASE}/issues`);
+      const q = timeKey && timeKey !== 'all' ? `?time=${encodeURIComponent(timeKey)}` : '';
+      const res = await fetch(`${API_BASE}/issues${q}`);
       const json = await res.json().catch(() => ({}));
 
       if (!res.ok) {
@@ -132,6 +141,12 @@ export default function IssuesPage() {
     setActiveFilter((prev) => (prev === normalized ? "ALL" : normalized));
   }
 
+  function toggleTimeFilter(key){
+    const newKey = (timeFilter === key) ? 'all' : key;
+    setTimeFilter(newKey);
+    loadIssues(newKey);
+  }
+
   return (
     <div className="page-shell">
       <div className="issues-page-header">
@@ -161,7 +176,12 @@ export default function IssuesPage() {
         ))}
 
         <div style={{ width: 12 }} />
-        <button className="issues-refresh-btn" onClick={loadIssues}>
+        {TIME_FILTERS.map(t => (
+          <button key={t.key} className={`issues-filter-chip quick ${timeFilter===t.key? 'active':''}`} onClick={()=>toggleTimeFilter(t.key)}>{t.label}</button>
+        ))}
+
+        <div style={{ width: 12 }} />
+        <button className="issues-refresh-btn" onClick={()=>loadIssues(timeFilter)}>
           Refresh
         </button>
       </div>
