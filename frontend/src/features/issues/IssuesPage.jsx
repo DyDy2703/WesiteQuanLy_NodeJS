@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import "./IssuesPage.css";
-import IssueDetailPanel from "../components/IssueDetailPanel";
-import IssueCard from "../components/IssueCard";
-import QuickFilterBar from "../components/QuickFilterBar";
+import IssueDetailPanel from "../../components/IssueDetailPanel";
+import IssueCard from "../../components/IssueCard";
+import QuickFilterBar from "../../components/QuickFilterBar";
 
 const API_BASE = "http://localhost:5001/api";
 

@@ -1,12 +1,17 @@
 import { NavLink, Route, Routes } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
-import HomePage from "./pages/HomePage";
-import DashboardsPage from "./pages/DashboardsPage";
-import ProjectsPage from "./pages/ProjectsPage";
-import IssuesPage from "./pages/IssuesPage";
-import BoardsPage from "./pages/BoardsPage";
-import PlansPage from "./pages/PlansPage";
-import CreatePage from "./pages/CreatePage";
+import HomePage from "./pages/HomePage.jsx";
+import PlansPage from "./pages/PlansPage.jsx";
+import CreatePage from "./pages/CreatePage.jsx";
+
+import LoginPage from "./features/auth/loginPage.jsx";
+import DashboardsPage from "./features/dashboard/DashboardsPage.jsx";
+import ProjectsPage from "./features/projects/ProjectsPage.jsx";
+import IssuesPage from "./features/issues/IssuesPage.jsx";
+import BoardsPage from "./features/board/BoardsPage.jsx";
+import RegisterPage from "./features/auth/registerPage.jsx";
+
 
 function App() {
   return (
@@ -16,33 +21,72 @@ function App() {
           <div className="jira-app-grid" />
           <div className="jira-logo-mark" />
 
-          <NavLink to="/" className="jira-brand-link">
-            TODO
-          </NavLink>
+          <Routes>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute>
+                  <HomePage />
+                </ProtectedRoute>
+              }
+            />
 
-          <NavLink to="/dashboards" className="jira-nav-link">
-            Dashboards
-          </NavLink>
+            <Route
+              path="/dashboards"
+              element={
+                <ProtectedRoute>
+                  <DashboardsPage />
+                </ProtectedRoute>
+              }
+            />
 
-          <NavLink to="/projects" className="jira-nav-link">
-            Projects
-          </NavLink>
+            <Route
+              path="/projects"
+              element={
+                <ProtectedRoute>
+                  <ProjectsPage />
+                </ProtectedRoute>
+              }
+            />
 
-          <NavLink to="/issues" className="jira-nav-link">
-            Issues
-          </NavLink>
+            <Route
+              path="/issues"
+              element={
+                <ProtectedRoute>
+                  <IssuesPage />
+                </ProtectedRoute>
+              }
+            />
 
-          <NavLink to="/boards" className="jira-nav-link">
-            Boards
-          </NavLink>
+            <Route
+              path="/boards"
+              element={
+                <ProtectedRoute>
+                  <BoardsPage />
+                </ProtectedRoute>
+              }
+            />
 
-          <NavLink to="/plans" className="jira-nav-link">
-            Plans
-          </NavLink>
+            <Route
+              path="/plans"
+              element={
+                <ProtectedRoute>
+                  <PlansPage />
+                </ProtectedRoute>
+              }
+            />
 
-          <NavLink to="/create" className="jira-create-btn">
-            Create
-          </NavLink>
+            <Route
+              path="/create"
+              element={
+                <ProtectedRoute>
+                  <CreatePage />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
         </div>
 
         <div className="jira-topnav-right">
