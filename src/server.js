@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { fileURLToPath } from "url";
+import path from "path";
 import { dirname } from "path";
 import { connectDB } from "./config/db.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
@@ -28,7 +29,7 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static("public")); // Serve static files
+app.use(express.static(path.join(__dirname, "public"))); // Serve static files from src/public
 // app.use("/api/todos", todoRoutes);
 app.use("/api/users", usersRoutes);
 app.use("/api/projects", projectsRoutes);

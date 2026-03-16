@@ -1,0 +1,124 @@
+.jira-topnav {
+    height: 56px;
+    background: #0052cc;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 18px;
+  }
+  
+  .jira-topnav-left,
+  .jira-topnav-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  
+  .jira-app-grid {
+    width: 18px;
+    height: 18px;
+    background-image:
+      radial-gradient(circle, white 58%, transparent 60%),
+      radial-gradient(circle, white 58%, transparent 60%),
+      radial-gradient(circle, white 58%, transparent 60%),
+      radial-gradient(circle, white 58%, transparent 60%),
+      radial-gradient(circle, white 58%, transparent 60%),
+      radial-gradient(circle, white 58%, transparent 60%),
+      radial-gradient(circle, white 58%, transparent 60%),
+      radial-gradient(circle, white 58%, transparent 60%),
+      radial-gradient(circle, white 58%, transparent 60%);
+    background-size: 6px 6px;
+    background-position:
+      0 0, 6px 0, 12px 0,
+      0 6px, 6px 6px, 12px 6px,
+      0 12px, 6px 12px, 12px 12px;
+    background-repeat: no-repeat;
+  }
+  
+  .jira-logo-mark {
+    width: 18px;
+    height: 18px;
+    background: white;
+    clip-path: polygon(50% 0%, 100% 35%, 72% 100%, 30% 68%, 58% 35%, 0% 35%);
+  }
+  
+  .jira-brand-link {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 700;
+    margin-right: 8px;
+  }
+  
+  .jira-nav-link {
+    color: white;
+    text-decoration: none;
+    font-size: 15px;
+    padding: 8px 6px;
+    border-radius: 4px;
+    transition: background 0.2s ease;
+  }
+  
+  .jira-nav-link:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+  
+  .jira-nav-link.active {
+    background: rgba(255, 255, 255, 0.18);
+  }
+  
+  .jira-create-btn {
+    text-decoration: none;
+    background: #2684ff;
+    color: white;
+    height: 38px;
+    padding: 0 18px;
+    border-radius: 4px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  .jira-search-box {
+    width: 180px;
+    height: 36px;
+    background: rgba(9, 30, 66, 0.35);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    font-size: 14px;
+  }
+  
+  .jira-top-icon {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.85);
+  }
+  
+  .jira-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #dfe1e6;
+  }
+  
+  @media (max-width: 900px) {
+    .jira-topnav {
+      padding: 0 10px;
+    }
+  
+    .jira-topnav-left {
+      gap: 10px;
+    }
+  
+    .jira-nav-link {
+      display: none;
+    }
+  
+    .jira-search-box {
+      display: none;
+    }
+  }

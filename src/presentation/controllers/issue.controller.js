@@ -8,7 +8,8 @@ class IssueController {
   });
 
   getAllIssues = asyncHandler(async (req, res) => {
-    const result = await issueService.getAllIssues();
+    const time = req.query.time;
+    const result = await issueService.getAllIssues(time);
     res.json({ success: true, data: result });
   });
 
