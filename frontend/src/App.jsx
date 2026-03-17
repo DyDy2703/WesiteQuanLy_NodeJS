@@ -1,4 +1,6 @@
-import { NavLink, Route, Routes } from "react-router-dom";
+import { NavLink, Navigate, Route, Routes } from "react-router-dom";
+import { useAuth } from "./context/useAuth";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 import HomePage from "./pages/HomePage";
 import DashboardsPage from "./pages/DashboardsPage";
@@ -7,8 +9,12 @@ import IssuesPage from "./pages/IssuesPage";
 import BoardsPage from "./pages/BoardsPage";
 import PlansPage from "./pages/PlansPage";
 import CreatePage from "./pages/CreatePage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 
-function App() {
+function AppLayout() {
+  const { logout, user } = useAuth();
+
   return (
     <div className="jira-page">
       <header className="jira-topnav">
@@ -47,8 +53,12 @@ function App() {
 
         <div className="jira-topnav-right">
           <div className="jira-search-box">Search</div>
-          <div className="jira-top-icon" />
-          <div className="jira-top-icon" />
+          <div className="jira-user-name">
+            {user?.display_name || user?.username || "User"}
+          </div>
+          <button className="jira-logout-btn" onClick={logout}>
+            Logout
+          </button>
           <div className="jira-avatar" />
         </div>
       </header>
@@ -65,6 +75,31 @@ function App() {
         </Routes>
       </main>
     </div>
+  );
+}
+
+function App() {
+  const { isAuthenticated } = useAuth();
+
+  return (
+    <Routes>
+      <Route
+        path="/login"
+        element={isAuthenticated ? <Navigate to="/" replace /> : <LoginPage />}
+      />
+      <Route
+        path="/register"
+        element={isAuthenticated ? <Navigate to="/" replace /> : <RegisterPage />}
+      />
+      <Route
+        path="/*"
+        element={
+          <ProtectedRoute>
+            <AppLayout />
+          </ProtectedRoute>
+        }
+      />
+    </Routes>
   );
 }
 

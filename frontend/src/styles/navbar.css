@@ -122,3 +122,24 @@
       display: none;
     }
   }
+
+  .jira-user-name {
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  
+  .jira-logout-btn {
+    height: 34px;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    background: transparent;
+    color: white;
+    border-radius: 8px;
+    padding: 0 12px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  
+  .jira-logout-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
