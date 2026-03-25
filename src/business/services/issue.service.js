@@ -67,7 +67,10 @@ class IssueService {
      * @body    { }
      * @returns 200 OK | 500 Internal Server Error
     **/
-    async getAllIssues() {
+    async getAllIssues(timeFilter) {
+        if (timeFilter) {
+            return await issueRepository.findByTimeFilter(timeFilter);
+        }
         return await issueRepository.findAll();
     }
 

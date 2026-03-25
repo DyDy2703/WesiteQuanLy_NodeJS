@@ -239,6 +239,7 @@ function renderIssues(issues) {
       <td>${issue.assignee_id?.username || '-'}</td>
       <td>
         <div class="action-buttons">
+          <button class="btn btn-info btn-sm" onclick="openIssueDetail('${issue._id}')">View</button>
           <button class="btn btn-secondary btn-sm" onclick="editIssue('${issue._id}')">Edit</button>
           <button class="btn btn-danger btn-sm" onclick="deleteIssue('${issue._id}')">Delete</button>
         </div>

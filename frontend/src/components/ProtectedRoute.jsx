@@ -1,13 +1,14 @@
-import { Navigate, useLocation } from "react-router-dom";
-import { useAuth } from "../context/useAuth";
+import { Navigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
-export default function ProtectedRoute({ children }) {
-  const { isAuthenticated } = useAuth();
-  const location = useLocation();
+function ProtectedRoute({ children }) {
+  const token = Cookies.get("token"); // cookie login
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace state={{ from: location }} />;
+  if (!token) {
+    return <Navigate to="/login" replace />;
   }
 
   return children;
 }
+
+export default ProtectedRoute;
