@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import "./BoardsPage.css";
 
-const API_BASE = "http://localhost:5001/api";
+const API_BASE = "http://localhost:5000/api";
 const USE_MOCK_DATA = true;
 function normalizeStatus(value) {
   if (!value) return "NO STATUS";

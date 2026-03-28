@@ -1,144 +1,117 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/useAuth";
-import "./LoginPage.css";
+import React, { Component } from "react";
+import "./RegisterPage.css";
+import { Link } from "react-router-dom";
 
-export default function RegisterPage() {
-  const navigate = useNavigate();
-  const { register } = useAuth();
+class Register extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      fullName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      showPassword: false, // Trạng thái ẩn/hiện cho mật khẩu
+      showConfirmPassword: false, // Trạng thái ẩn/hiện cho xác nhận mật khẩu
+      error: "",
+    };
+  }
 
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    display_name: "",
-    password: "",
-    confirmPassword: "",
-  });
+  handleInputChange = (event) => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+  };
 
-  const [error, setError] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  function handleChange(e) {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
+  // Phương thức đảo ngược trạng thái hiển thị (Toggle)
+  toggleShowPassword = (field) => {
+    this.setState((prevState) => ({
+      [field]: !prevState[field]
     }));
-  }
+  };
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    setError("");
-    setSuccessMessage("");
-
-    if (formData.password !== formData.confirmPassword) {
-      setError("Mật khẩu xác nhận không khớp");
+  handleSubmit = (event) => {
+    event.preventDefault();
+    const { password, confirmPassword } = this.state;
+    if (password !== confirmPassword) {
+      this.setState({ error: "Mật khẩu xác nhận không khớp!" });
       return;
     }
+    console.log("Đăng ký thành công!", this.state);
+  };
 
-    setLoading(true);
+  render() {
+    const { showPassword, showConfirmPassword } = this.state;
 
-    const result = await register({
-      username: formData.username,
-      email: formData.email,
-      display_name: formData.display_name,
-      password: formData.password,
-    });
+    return (
+      <div className="tms-register-container">
+        <div className="tms-register-box">
+          <header className="tms-register-header">
+            <div className="tms-logo">
+              <span className="logo-icon">T</span>
+              <span className="logo-text">Task Management System</span>
+            </div>
+            <h1>Đăng ký tài khoản</h1>
+          </header>
 
-    setLoading(false);
+          <form className="tms-register-form" onSubmit={this.handleSubmit}>
+            {this.state.error && <p className="error-msg">{this.state.error}</p>}
+            
+            <div className="form-group">
+              <input type="text" name="fullName" placeholder="Họ và tên" onChange={this.handleInputChange} required />
+            </div>
 
-    if (!result.success) {
-      setError(result.message);
-      return;
-    }
+            <div className="form-group">
+              <input type="email" name="email" placeholder="Địa chỉ Email" onChange={this.handleInputChange} required />
+            </div>
 
-    setSuccessMessage("Đăng ký thành công, chuyển sang đăng nhập...");
-    setTimeout(() => {
-      navigate("/login");
-    }, 1000);
-  }
+            <div className="form-group">
+              <input type="display_name" name="display_name" placeholder="Tên người dùng" onChange={this.handleInputChange} required />
+            </div>
 
-  return (
-    <div className="login-page">
-      <div className="login-card">
-        <div className="login-brand">TODO</div>
-        <h1 className="login-title">Đăng ký</h1>
-        <p className="login-subtitle">Tạo tài khoản mới để sử dụng hệ thống</p>
+            {/* Ô mật khẩu */}
+            <div className="form-group password-wrapper">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Mật khẩu"
+                onChange={this.handleInputChange}
+                required
+              />
+              <span 
+                className="toggle-password" 
+                onClick={() => this.toggleShowPassword("showPassword")}
+              >
+                {showPassword ? "Ẩn" : "Hiện"}
+              </span>
+            </div>
 
-        <form className="login-form" onSubmit={handleSubmit}>
-          <div className="login-form-group">
-            <label htmlFor="display_name">Tên hiển thị</label>
-            <input
-              id="display_name"
-              type="text"
-              name="display_name"
-              placeholder="Nhập tên hiển thị"
-              value={formData.display_name}
-              onChange={handleChange}
-            />
-          </div>
+            {/* Ô nhập lại mật khẩu */}
+            <div className="form-group password-wrapper">
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                name="confirmPassword"
+                placeholder="Xác nhận mật khẩu"
+                onChange={this.handleInputChange}
+                required
+              />
+              <span 
+                className="toggle-password" 
+                onClick={() => this.toggleShowPassword("showConfirmPassword")}
+              >
+                {showConfirmPassword ? "Ẩn" : "Hiện"}
+              </span>
+            </div>
 
-          <div className="login-form-group">
-            <label htmlFor="username">Tài khoản</label>
-            <input
-              id="username"
-              type="text"
-              name="username"
-              placeholder="Nhập tài khoản"
-              value={formData.username}
-              onChange={handleChange}
-            />
-          </div>
+            <button type="submit" className="btn-submit">Đăng ký</button>
+          </form>
 
-          <div className="login-form-group">
-            <label htmlFor="email">Email</label>
-            <input
-              id="email"
-              type="email"
-              name="email"
-              placeholder="Nhập email"
-              value={formData.email}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="login-form-group">
-            <label htmlFor="password">Mật khẩu</label>
-            <input
-              id="password"
-              type="password"
-              name="password"
-              placeholder="Nhập mật khẩu"
-              value={formData.password}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="login-form-group">
-            <label htmlFor="confirmPassword">Xác nhận mật khẩu</label>
-            <input
-              id="confirmPassword"
-              type="password"
-              name="confirmPassword"
-              placeholder="Nhập lại mật khẩu"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-            />
-          </div>
-
-          {error ? <div className="login-error">{error}</div> : null}
-          {successMessage ? <div className="login-success">{successMessage}</div> : null}
-
-          <button type="submit" className="login-submit-btn" disabled={loading}>
-            {loading ? "Đang đăng ký..." : "Đăng ký"}
-          </button>
-        </form>
-
-        <div className="login-switch-text">
-          Đã có tài khoản? <Link to="/login">Đăng nhập</Link>
+          <footer className="tms-register-footer">
+            <span>Đã có tài khoản?</span>
+            <Link to="/login" className="link-login">Đăng nhập</Link>
+          </footer>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
+
+export default Register;

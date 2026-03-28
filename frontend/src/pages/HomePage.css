@@ -1,3 +1,36 @@
-.home-card h2 {
-    margin-top: 0;
-  }
+/* Container tổng chiếm toàn bộ màn hình */
+.homepage-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden; /* Không cho cuộn toàn trang */
+}
+
+/* Vùng nội dung dưới Header */
+.homepage-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Container chia cột chính */
+.main-working-area {
+  display: flex;
+  flex-direction: row; /* Xếp ngang Board và Sidebar */
+  flex: 1;
+  overflow: hidden; /* Quan trọng để Sidebar bám lề phải */
+  position: relative;
+}
+
+/* Phần Board ở giữa */
+.board-wrapper {
+  flex: 1; /* Chiếm tối đa không gian bên trái */
+  overflow-y: auto; /* Chỉ cuộn nội dung Board */
+  background-color: #ffffff;
+  padding-right: 10px; /* Tạo khoảng hở nhỏ với Sidebar */
+}
+
+/* SidebarRight đã có width cố định (500px) hoặc collapsed (44px) ở file CSS riêng */
+/* Bạn không cần thêm CSS ở đây cho SidebarRight trừ khi muốn ghi đè */

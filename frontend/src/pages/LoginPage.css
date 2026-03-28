@@ -1,131 +1,143 @@
-.login-page {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  background:
-    linear-gradient(135deg, rgba(0, 82, 204, 0.08), rgba(38, 132, 255, 0.04)),
-    #f4f5f7;
+/* Layout tổng thể */
+.tms-login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f5f7;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-.login-card {
-  width: 100%;
-  max-width: 440px;
-  background: white;
-  border-radius: 20px;
-  padding: 32px 28px;
-  box-shadow: 0 20px 50px rgba(9, 30, 66, 0.14);
+/* Hộp đăng nhập trung tâm - Độ rộng lớn đồng bộ với trang Đăng ký */
+.tms-login-box {
+    background: #ffffff;
+    padding: 50px 60px;
+    border-radius: 3px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    width: 500px; /* Bề ngang lớn theo yêu cầu */
+    text-align: center;
+    box-sizing: border-box;
 }
 
-.login-brand {
-  font-size: 14px;
-  font-weight: 800;
-  color: #0052cc;
-  letter-spacing: 0.08em;
-  margin-bottom: 10px;
+/* Logo & Header */
+.tms-login-header h1 {
+    color: #172b4d;
+    font-size: 20px;
+    margin-bottom: 30px;
+    font-weight: 600;
 }
 
-.login-title {
-  margin: 0 0 8px;
-  font-size: 34px;
-  font-weight: 800;
-  color: #172b4d;
+.tms-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
 }
 
-.login-subtitle {
-  margin: 0 0 24px;
-  color: #5e6c84;
-  line-height: 1.5;
+.logo-icon {
+    background: #0052cc;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 18px;
 }
 
-.login-form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+.logo-text {
+    font-weight: bold;
+    color: #42526e;
+    font-size: 20px;
 }
 
-.login-form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+/* Form Styling */
+.form-group {
+    margin-bottom: 15px;
+    position: relative;
 }
 
-.login-form-group label {
-  font-size: 14px;
-  font-weight: 700;
-  color: #172b4d;
+.tms-login-form input {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid #dfe1e6;
+    border-radius: 3px;
+    background-color: #fafbfc;
+    font-size: 15px;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
 }
 
-.login-form-group input {
-  height: 46px;
-  border: 1px solid #dfe1e6;
-  border-radius: 12px;
-  padding: 0 14px;
-  outline: none;
-  background: white;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+.tms-login-form input:focus {
+    background-color: white;
+    border-color: #4c9aff;
+    outline: none;
 }
 
-.login-form-group input:focus {
-  border-color: #4c9aff;
-  box-shadow: 0 0 0 3px rgba(76, 154, 255, 0.16);
+/* Nút Hiện/Ẩn mật khẩu */
+.password-wrapper .toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 13px;
+    font-weight: 600;
+    color: #42526e;
+    cursor: pointer;
+    user-select: none;
 }
 
-.login-error {
-  background: linear-gradient(135deg, #fff1f0, #ffe7e3);
-  border: 1px solid #ffb8ad;
-  color: #bf2600;
-  border-radius: 14px;
-  padding: 13px 15px;
-  font-size: 14px;
-  line-height: 1.5;
-  font-weight: 600;
+.toggle-password:hover {
+    color: #0052cc;
 }
 
-.login-success {
-  background: linear-gradient(135deg, #ecfff6, #e3fcef);
-  border: 1px solid #79e2b8;
-  color: #006644;
-  border-radius: 14px;
-  padding: 13px 15px;
-  font-size: 14px;
-  line-height: 1.5;
-  font-weight: 600;
+/* Button Đăng nhập */
+.btn-submit {
+    width: 100%;
+    padding: 12px;
+    background-color: #0052cc;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
 }
 
-.login-submit-btn {
-  height: 48px;
-  border: none;
-  border-radius: 12px;
-  background: #0052cc;
-  color: white;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.2s ease, transform 0.15s ease;
+.btn-submit:hover {
+    background-color: #0065ff;
 }
 
-.login-submit-btn:hover {
-  background: #0747a6;
-  transform: translateY(-1px);
+/* Footer */
+.tms-login-footer {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #ebecf0;
 }
 
-.login-submit-btn:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-  transform: none;
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    font-size: 14px;
 }
 
-.login-switch-text {
-  margin-top: 18px;
-  font-size: 14px;
-  color: #5e6c84;
-  text-align: center;
+.footer-links a {
+    color: #0052cc;
+    text-decoration: none;
 }
 
-.login-switch-text a {
-  color: #0052cc;
-  font-weight: 700;
-  text-decoration: none;
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+.dot {
+    color: #6b778c;
+}
+
+.error-msg {
+    color: #de350b;
+    font-size: 13px;
+    margin-bottom: 12px;
+    text-align: left;
 }

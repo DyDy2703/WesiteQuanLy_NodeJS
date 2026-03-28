@@ -1,0 +1,182 @@
+/* Màu sắc thương hiệu Jira */
+.jira-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #0747A6; /* Màu xanh đậm Jira */
+  color: white;
+  padding: 0 16px;
+  height: 48px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  /* THÊM 2 DÒNG NÀY ĐỂ TRẢI DÀI */
+  width: 100%;       /* Bắt buộc phải rộng 100% màn hình */
+  box-sizing: border-box; /* Đảm bảo padding không làm tràn màn hình */
+}
+
+.header-left, .header-right {
+  display: flex;
+  align-items: center;
+}
+
+.nav-item {
+  background: none;
+  border: none;
+  font-weight: 500;
+  color: #ffffff !important;
+  padding: 4px 8px;
+  margin: 0 2px;
+  cursor: pointer;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.nav-item:hover {
+  background-color: rgba(255, 255, 255, 0.2); 
+  color: #ffffff;
+  border-radius: 3px;
+}
+
+.btn-create {
+  background-color: #0052CC;
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 3px;
+  font-weight: bold;
+  margin-left: 8px;
+  cursor: pointer;
+}
+
+.btn-create:hover {
+  background-color: #0065FF;
+}
+
+.search-container {
+  position: relative;
+  margin-right: 15px;
+}
+
+.search-input {
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 1px solid transparent;
+  border-radius: 3px;
+  padding: 4px 8px 4px 30px;
+  color: white;
+  width: 180px;
+  transition: all 0.2s;
+}
+
+.search-input:focus {
+  background-color: white;
+  color: #333;
+  outline: none;
+  width: 220px;
+}
+
+.avatar {
+  width: 100% !important;  /* Luôn rộng bằng 100% container */
+  height: 100% !important; /* Luôn cao bằng 100% container */
+  object-fit: cover !important;
+  border-radius: 50%;
+  background-color: #ccc;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.profile-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.avatar-wrapper {
+    width: 28px;
+    height: 28px;
+    margin-left: 12px;
+    cursor: pointer;
+    border-radius: 50%;
+    overflow: hidden !important; /* Cắt bỏ phần ảnh tràn */
+    border: 2px solid transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+/* Menu Dropdown */
+.profile-dropdown {
+    position: absolute;
+    top: 40px; /* Cách header một khoảng */
+    right: 0;
+    background-color: white;
+    min-width: 200px;
+    border-radius: 4px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    padding: 8px 0;
+    animation: fadeIn 0.2s ease-out;
+}
+
+.avatar-wrapper.active, .avatar-wrapper:hover {
+    border-color: rgba(255, 255, 255, 0.8);
+}
+
+.user-avatar-img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important; /* Giữ tỉ lệ ảnh tròn đẹp */
+    display: block;
+}
+
+/* Menu Dropdown của Avatar */
+.profile-dropdown {
+    position: absolute;
+    top: 42px;
+    right: 0;
+    background-color: #ffffff;
+    min-width: 180px;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 999;
+    padding: 8px 0;
+    animation: slideIn 0.2s ease-out;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.dropdown-header {
+    padding: 8px 16px;
+    font-size: 11px;
+    font-weight: bold;
+    color: #6b778c;
+}
+
+.dropdown-item {
+    width: 100%;
+    padding: 10px 16px;
+    text-align: left;
+    background: none;
+    border: none;
+    font-size: 14px;
+    color: #172b4d;
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+    background-color: #f4f5f7;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background-color: #ebecf0;
+    margin: 4px 0;
+}
+
+.logout-item {
+    color: #de350b;
+}

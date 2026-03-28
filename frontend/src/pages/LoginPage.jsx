@@ -1,90 +1,121 @@
-import { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/useAuth";
+import React, { Component } from "react";
 import "./LoginPage.css";
+import { Link, useNavigate } from "react-router-dom";
+import ProtectedRoute from "../components/ProtectedRoute.jsx"; // Import class đã tạo
 
-export default function LoginPage() {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { login } = useAuth();
+// Wrapper để sử dụng useNavigate trong Class Component (React Router v6)
+function withNavigation(Component) {
+  return props => <Component {...props} navigate={useNavigate()} />;
+}
 
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-  });
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+class LoginPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: "",
+      password: "",
+      showPassword: false,
+      error: "",
+    };
+  }
 
-  const from = location.state?.from?.pathname || "/";
+  // Cập nhật giá trị input vào state
+  handleInputChange = (event) => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+  };
 
-  function handleChange(e) {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
+  // Đảo ngược trạng thái ẩn/hiện mật khẩu
+  toggleShowPassword = () => {
+    this.setState((prevState) => ({
+      showPassword: !prevState.showPassword,
     }));
-  }
+  };
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
+  // Xử lý khi nhấn nút Đăng nhập
+  handleSubmit = (event) => {
+    event.preventDefault();
+    const { email, password } = this.state;
+    
+    try {
+      // Giả lập gọi API (Thay thế đoạn này bằng fetch hoặc axios của bạn)
+      // const response = await authService.login(email, password);
+      
+      if (email === "admin@gmail.com" && password === "123456") {
+        const CookieToken = "eyJsY2kiOiJIUzI1NiIsInR5cCI6IkpXVCJ9...";
+        
+        // GỌI PHƯƠNG THỨC TỪ PROTECTED ROUTE
+        // Lưu token vào Cookie trong 120 phút (2 tiếng)
+        ProtectedRoute.login(CookieToken, 120);
 
-    const result = await login(formData.username, formData.password);
-
-    setLoading(false);
-
-    if (!result.success) {
-      setError(result.message);
-      return;
+        console.log("Đăng nhập thành công, token đã được lưu!");
+        
+        // Điều hướng về trang chủ hoặc Board của Green Tech Hub
+        this.props.navigate("/homepage");
+      } else {
+        this.setState({ error: "Email hoặc mật khẩu không chính xác!" });
+      }
+    } catch (err) {
+      this.setState({ error: err.message });
+    } finally {
+      this.setState({ isLoading: false });
     }
+  };
 
-    navigate(from, { replace: true });
-  }
+  render() {
+    const { showPassword, error } = this.state;
 
-  return (
-    <div className="login-page">
-      <div className="login-card">
-        <div className="login-brand">TODO</div>
-        <h1 className="login-title">Đăng nhập</h1>
-        <p className="login-subtitle">Đăng nhập để vào hệ thống quản lý công việc</p>
+    return (
+      <div className="tms-login-container">
+        <div className="tms-login-box">
+          <header className="tms-login-header">
+            <div className="tms-logo">
+              <span className="logo-icon">T</span>
+              <span className="logo-text">Task Management System</span>
+            </div>
+            <h1>Đăng nhập</h1>
+          </header>
 
-        <form className="login-form" onSubmit={handleSubmit}>
-          <div className="login-form-group">
-            <label htmlFor="username">Tài khoản</label>
-            <input
-              id="username"
-              type="text"
-              name="username"
-              placeholder="Nhập tài khoản"
-              value={formData.username}
-              onChange={handleChange}
-            />
-          </div>
+          <form className="tms-login-form" onSubmit={this.handleSubmit}>
+            {error && <p className="error-msg">{error}</p>}
+            
+            <div className="form-group">
+              <input
+                type="email"
+                name="email"
+                placeholder="Nhập email"
+                onChange={this.handleInputChange}
+                required
+              />
+            </div>
 
-          <div className="login-form-group">
-            <label htmlFor="password">Mật khẩu</label>
-            <input
-              id="password"
-              type="password"
-              name="password"
-              placeholder="Nhập mật khẩu"
-              value={formData.password}
-              onChange={handleChange}
-            />
-          </div>
+            <div className="form-group password-wrapper">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Nhập mật khẩu"
+                onChange={this.handleInputChange}
+                required
+              />
+              <span className="toggle-password" onClick={this.toggleShowPassword}>
+                {showPassword ? "Ẩn" : "Hiện"}
+              </span>
+            </div>
 
-          {error ? <div className="login-error">{error}</div> : null}
+            <button type="submit" className="btn-submit">Đăng nhập</button>
+          </form>
 
-          <button type="submit" className="login-submit-btn" disabled={loading}>
-            {loading ? "Đang đăng nhập..." : "Đăng nhập"}
-          </button>
-        </form>
-
-        <div className="login-switch-text">
-          Chưa có tài khoản? <Link to="/register">Đăng ký ngay</Link>
+          <footer className="tms-login-footer">
+            <div className="footer-links">
+              <Link to="/forgot-password">Quên mật khẩu?</Link>
+              <span className="dot">•</span>
+              <Link to="/register">Tạo tài khoản mới</Link>
+            </div>
+          </footer>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
+
+export default withNavigation(LoginPage);
